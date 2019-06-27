@@ -25,7 +25,7 @@ class App extends Component {
         <ThresholdOverlay width={width}
                           height={height}
                           minY={0}
-                          maxY={200}
+                          maxY={10000}
                           lowerThreshold={lowerThreshold}
                           upperThreshold={upperThreshold}
                           />
@@ -33,7 +33,7 @@ class App extends Component {
                           width={width}
                           height={height}
                           minY={0}
-                          maxY={200}
+                          maxY={10000}
                           lowerThreshold={lowerThreshold}
                           upperThreshold={upperThreshold}
                           updateThresholdHandler={this.updateThreshold}

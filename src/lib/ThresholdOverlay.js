@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
 import {memoize_one} from "memoize";
 import {toDomYCoord_Linear} from "plot-utils";
 
@@ -23,13 +24,34 @@ class ThresholdOverlay extends PureComponent {
                       width:width,height:lowerThresholdDomY-upperThresholdDomY,
                       borderStyle:"dashed none dashed none",
                       borderColor:"red",
-                      borderWidth:1
+                      borderWidth:1,
+                      display:"flex",
+                      justifyContent:"right"
                     }} >
+          <div style={{ display:"flex",
+                        flexDirection: "column",
+                        justifyContent:"space-between",
+                        alignItems:"flex-end"}}>
+            <div>
+              {upperThreshold}
+            </div>
+            <div>
+              {lowerThreshold}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
-
 }
+
+ThresholdOverlay.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  minY: PropTypes.number.isRequired,
+  maxY: PropTypes.number.isRequired,
+  upperThreshold: PropTypes.number.isRequired,
+  lowerThreshold: PropTypes.number.isRequired,
+};
 
 export default ThresholdOverlay;

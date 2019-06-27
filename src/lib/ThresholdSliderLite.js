@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
 import {bisect_left,bisect_right} from "bisect";
 import {memoize_one} from "memoize";
 import {fromDomYCoord_Linear, toDomYCoord_Linear} from "plot-utils";
@@ -77,7 +78,6 @@ class ThresholdSliderLite extends PureComponent {
     let centerPieceHeight = lowerThresholdDomY-upperThresholdDomY;
     let centerDomY = Math.round((lowerThresholdDomY+upperThresholdDomY)/2);
     ctx.fillStyle = "lightgrey";
-    ctx.fillRect(0,upperThresholdDomY,width,centerPieceHeight);
     ctx.fillStyle = "black";
     ctx.textBaseline = "middle";
     ctx.textAlign = "right";
@@ -139,15 +139,15 @@ class ThresholdSliderLite extends PureComponent {
   }
 }
 
-//~ ThresholdSliderLite.propTypes = {
-  //~ width
-  //~ height
-  //~ minY
-  //~ maxY
-  //~ data=[{x,y}]
-  //~ upperThreshold=uprdataY
-  //~ lowerThreshold=
-  //~ updateThresholdHandler
-//~ };
+ThresholdSliderLite.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  minY: PropTypes.number.isRequired,
+  maxY: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
+  upperThreshold: PropTypes.number.isRequired,
+  lowerThreshold: PropTypes.number.isRequired,
+  updateThresholdHandler: PropTypes.func.isRequired,
+};
 
 export default ThresholdSliderLite;
