@@ -86,7 +86,7 @@ class ThresholdSliderLite extends PureComponent {
 
   getSortedY = memoize_one( (data)=>{
     return data.map( ({y})=>y )
-               .sort()
+               .sort( (a,b)=>a-b )
   });
 
   getUpperPortion = memoize_one( (data,threshold)=>{
@@ -107,10 +107,6 @@ class ThresholdSliderLite extends PureComponent {
     let centerP = 100-uprP-lwrP;
     return centerP;
   }
-
-  getSortedY = memoize_one( (data)=>{
-    return data.map( ({y})=>y );
-  });
   
   handleClick = (ev)=>{
     let {height,minY,maxY} = this.props;

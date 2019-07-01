@@ -1,60 +1,174 @@
 import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
 import {bisect_left,bisect_right} from "bisect";
 import {memoize_one} from "memoize";
 import {fromDomYCoord_Linear, toDomYCoord_Linear} from "plot-utils";
+import DragOverlay from "./DragOverlay";
 
 class ThresholdSlider extends PureComponent {
   constructor(props){
     super(props);
+    this.snapshot={};
+    this.state = {dragging:false}; // false/'left'/'right'
     this.ref = React.createRef();
   }
-
-  getSortedY = memoize_one( (data)=>{
-    return data.map( ({y})=>y )
-               .sort()
-  });
-  
-  getUpperPortion = memoize_one( (sortedY,upperThreshold)=>{
-    return (bisect_left(sortedY,upperThreshold)+1) / sortedY.length;
-  });
-
-  getLowerPortion = memoize_one( (sortedY,lowerThreshold)=>{
-    return (sortedY.length-bisect_right(sortedY,lowerThreshold)+1) / sortedY.length;
-  });
   
   render() {
-    let {data,width,height,minY,maxY,upperThreshold,lowerThreshold,updateThresholdHandler} = this.props;
-
-    let sortedY = this.getSortedY(data);
-    let upperPortion = this.getUpperPortion(sortedY,upperThreshold);
-    let lowerPortion = this.getLowerPortion(sortedY,lowerThreshold);
-    
-    let upperDomX = toDomYCoord_Linear(height,minY,maxY,upperThreshold)
-    let lowerDomX = toDomYCoord_Linear(height,minY,maxY,lowerThreshold)
+    let {data,value,width,height,minY,maxY,upperThreshold,lowerThreshold} = this.props;
+    let {dragging} = this.state;
+    // Get portions
+    let upperPortion = this.getUpperPortion(data,value,upperThreshold);
+    let lowerPortion = this.getLowerPortion(data,value,lowerThreshold);
+    let centerPortion = this.getCenterPortion(data,value,upperThreshold,lowerThreshold);
+    let upperPortionDisplay = upperPortion.toFixed(1);
+    let lowerPortionDisplay = lowerPortion.toFixed(1);
+    let centerPortionDisplay = centerPortion.toFixed(1);
+    // Get threshold Dom positions
+    let upperDomY = toDomYCoord_Linear(height,minY,maxY,upperThreshold);
+    let lowerDomY = toDomYCoord_Linear(height,minY,maxY,lowerThreshold);
+    // DragOverlay
+    let DragOverlayElem = null;
+    if (dragging==="upper") {
+      DragOverlayElem = <DragOverlay  cursor="ns-resize"
+                                      mouseMoveHandler={this.handleUpperHandleDragging}
+                                      mouseUpHandler={this.handleUpperHandleDragEnd}
+                                      />
+    }
+    if (dragging==="lower") {
+      DragOverlayElem = <DragOverlay  cursor="ns-resize"
+                                      mouseMoveHandler={this.handleLowerHandleDragging}
+                                      mouseUpHandler={this.handleLowerHandleDragEnd}
+                                      />
+    }
     return (
-      <div width={width} height={height} style={{width:width,height:height,backgroundColor:"#efefef",position:"relative",overflow:"hidden",userSelect:"none"}}>
-        <div style={{position:"absolute",top:upperDomX,
-                      width:width,height:lowerDomX-upperDomX,backgroundColor:'grey',userSelect:"none"}}>
-          {upperPortion}
-        </div>
-        <div style={{position:"absolute",bottom:height-upperDomX-1,
-                      width:width,height:10,backgroundColor:'green',userSelect:"none"}}>
-        </div>
-        <div style={{position:"absolute",top:lowerDomX-1,
-                      width:width,height:10,backgroundColor:'red',userSelect:"none"}}>
-          {lowerPortion}
-        </div>
-      </div>
+      <>
+        <svg  ref={this.ref}
+              width={width} height={height}
+              xmlns="http://www.w3.org/2000/svg"
+              style={{backgroundColor:"#eeeeee"}}>
+          <style jsx="true">{`
+            text {
+              fill: white;
+              font-family: Sans;
+              pointer-events: none;
+            }
+            `}
+          </style>
+          <defs>
+            <path id="upperHandle"
+                  d={`M 0 0 L 5 5 L ${width} 5 L ${width} -20 L 10 -20 z`}
+                  fill="#000000"/>
+            <filter id="upperShadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="-2" stdDeviation="2"/>
+            </filter>
+            <path id="lowerHandle"
+                  d={`M 0 0 L 5 -5 L ${width} -5 L ${width} 20 L 10 20 z`}
+                  fill="#000000"/>
+            <filter id="lowerShadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2"/>
+            </filter>
+          </defs>
+
+          <rect x="0" y={upperDomY} width={width} height={lowerDomY-upperDomY}
+                style={{fill:"grey"}}
+                />
+          <text x={width} y={(upperDomY+lowerDomY)/2} textAnchor="end" dominantBaseline="middle">{centerPortionDisplay}%</text>
+          <use  href="#upperHandle" x="0" y={upperDomY}
+                style={{cursor:"ns-resize",fill:"grey",filter:"url(#upperShadow)"}}
+                onMouseDown={this.handleUpperHandleDragStart}/>
+          <text x={width} y={upperDomY-10} textAnchor="end" dominantBaseline="middle">{upperPortionDisplay}%</text>
+          <use  href="#lowerHandle" x="0" y={lowerDomY}
+                style={{cursor:"ns-resize",fill:"grey",filter:"url(#lowerShadow)"}}
+                onMouseDown={this.handleLowerHandleDragStart}/>
+          <text x={width} y={lowerDomY+10} textAnchor="end" dominantBaseline="middle">{lowerPortionDisplay}%</text>
+        </svg>
+        {DragOverlayElem}
+      </>
     );
   }
+  
+  getSortedY = memoize_one( (data,value)=>{
+    return data.map( (obj)=>obj[value] )
+               .sort( (a,b)=>a-b );
+  });
 
-  componentDidMount(){
-    console.log("!@#!@#");
+  getUpperPortion = memoize_one( (data,value,threshold)=>{
+    let sortedY = this.getSortedY(data,value);
+    let idx = bisect_right(sortedY,threshold);
+    return (sortedY.length-idx)/sortedY.length*100;
+  });
+  
+  getLowerPortion = memoize_one( (data,value,threshold)=>{
+    let sortedY = this.getSortedY(data,value);
+    let idx = bisect_left(sortedY,threshold);
+    return (idx+1)/sortedY.length*100
+  });
+
+  getCenterPortion(data,value,upperThreshold,lowerThreshold) {
+    let uprP = this.getUpperPortion(data,upperThreshold);
+    let lwrP = this.getLowerPortion(data,lowerThreshold);
+    let centerP = 100-uprP-lwrP;
+    return centerP;
   }
 
-  componentDidUpdate(){
-    console.log("!");
+  handleUpperHandleDragStart = (ev)=>{
+    this.setState({dragging:"upper"});
   }
+
+  handleLowerHandleDragStart = (ev)=>{
+    this.setState({dragging:"lower"});
+  }
+
+  handleUpperHandleDragging = (ev)=>{
+    let {height,minY,maxY,lowerThreshold} = this.props;
+    let referenceNode = this.ref.current;
+    let upperThresholdDomY = ev.clientY - referenceNode.getBoundingClientRect().top;
+    let upperThreshold = fromDomYCoord_Linear(height,minY,maxY,upperThresholdDomY);
+    lowerThreshold = Math.min(lowerThreshold,upperThreshold);
+    this.handleThresholdUpdate(upperThreshold,lowerThreshold);
+  }
+
+  handleLowerHandleDragging = (ev)=>{
+    let {height,minY,maxY,upperThreshold} = this.props;
+    let referenceNode = this.ref.current;
+    let lowerThresholdDomY = ev.clientY - referenceNode.getBoundingClientRect().top;
+    let lowerThreshold = fromDomYCoord_Linear(height,minY,maxY,lowerThresholdDomY);
+    upperThreshold = Math.max(lowerThreshold,upperThreshold);
+    this.handleThresholdUpdate(upperThreshold,lowerThreshold);
+  }
+
+  handleUpperHandleDragEnd = (ev)=>{
+    this.setState({dragging:null});
+  }
+
+  handleLowerHandleDragEnd = (ev)=>{
+    this.setState({dragging:null});
+  }
+
+  handleThresholdUpdate(upperThreshold,lowerThreshold) {
+    let {updateThresholdHandler} = this.props;
+    let {minY,maxY} = this.props;
+    upperThreshold = Math.max(minY,Math.min(maxY,upperThreshold));
+    lowerThreshold = Math.max(minY,Math.min(maxY,lowerThreshold));
+    let thresholds = this.createThresholds(upperThreshold,lowerThreshold);
+    updateThresholdHandler(thresholds);
+  }
+
+  createThresholds = memoize_one( (upperThreshold,lowerThreshold)=>{
+    return {upperThreshold,lowerThreshold};
+  });
 }
+
+ThresholdSlider.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  minY: PropTypes.number.isRequired,
+  maxY: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
+  value: PropTypes.string.isRequired,
+  upperThreshold: PropTypes.number.isRequired,
+  lowerThreshold: PropTypes.number.isRequired,
+  updateThresholdHandler: PropTypes.func.isRequired,
+};
 
 export default ThresholdSlider;

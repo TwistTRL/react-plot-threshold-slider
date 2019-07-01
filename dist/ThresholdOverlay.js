@@ -81,7 +81,7 @@ function (_PureComponent) {
       }, _react.default.createElement("div", {
         style: {
           position: "absolute",
-          top: upperThresholdDomY,
+          top: upperThresholdDomY - 1,
           width: width,
           height: lowerThresholdDomY - upperThresholdDomY,
           borderStyle: "dashed none dashed none",

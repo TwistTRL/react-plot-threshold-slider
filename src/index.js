@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {ThresholdSliderLite as ThresholdSlider, ThresholdOverlay} from "./lib";
+import ThresholdSlider, {ThresholdOverlay} from "./lib";
 
 const DATA = [...new Array(10000).keys()].map( i=>({x:i,y:i}) );
 
@@ -9,8 +9,8 @@ class App extends Component {
     super(props);
     this.state={width:100,
                 height:400,
-                lowerThreshold:10,
-                upperThreshold:150
+                lowerThreshold:100,
+                upperThreshold:9050
                 };
   }
 
@@ -30,6 +30,7 @@ class App extends Component {
                           upperThreshold={upperThreshold}
                           />
         <ThresholdSlider  data={DATA}
+                          value="y"
                           width={width}
                           height={height}
                           minY={0}

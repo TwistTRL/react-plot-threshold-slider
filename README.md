@@ -1,11 +1,11 @@
 # react-plot-threshold-slider
 
-v0.0.1
-Providing ThresholdSliderLite in place of ThresholdSlider.
+v0.0.2
+Providing ThresholdSlider. ThresholdSliderLite is removed.
 
 ## Import
 ```
-import {ThresholdSliderLite, ThresholdOverlay} from "react-plot-threshold-slider";
+import {ThresholdSlider, ThresholdOverlay} from "react-plot-threshold-slider";
 ```
 
 ## Example
@@ -25,17 +25,16 @@ ThresholdOverlay
 ThresholdSliderLite
 
 ```
-<ThresholdSliderLite  data={DATA}
-                      width={width}
-                      height={height}
-                      minY={0}
-                      maxY={10000}
-                      lowerThreshold={lowerThreshold}
-                      upperThreshold={upperThreshold}
-                      updateThresholdHandler={this.updateThreshold}
-                      />
+<ThresholdSlider  data={DATA}
+                  value="y"
+                  width={width}
+                  height={height}
+                  minY={0}
+                  maxY={10000}
+                  lowerThreshold={lowerThreshold}
+                  upperThreshold={upperThreshold}
+                  updateThresholdHandler={this.updateThreshold}
+                  />
 ```
-
-* data should be an array of object which contains a key `y` as the y axis value.
 
 * updateThresholdHandler receives an object, {upperThreshold,lowerThreshold} as an argument.

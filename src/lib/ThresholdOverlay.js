@@ -20,7 +20,7 @@ class ThresholdOverlay extends PureComponent {
     let lowerThresholdDomY = toDomYCoord_Linear(height,minY,maxY,lowerThreshold);
     return (
       <div style={this.getStyle(width,height)}>
-        <div style={{ position:"absolute",top:upperThresholdDomY,
+        <div style={{ position:"absolute",top:upperThresholdDomY-1,
                       width:width,height:lowerThresholdDomY-upperThresholdDomY,
                       borderStyle:"dashed none dashed none",
                       borderColor:"red",

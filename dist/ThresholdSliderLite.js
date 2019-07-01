@@ -55,7 +55,9 @@ function (_PureComponent) {
       return data.map(function (_ref) {
         var y = _ref.y;
         return y;
-      }).sort();
+      }).sort(function (a, b) {
+        return a - b;
+      });
     }));
 
     _defineProperty(_assertThisInitialized(_this), "getUpperPortion", (0, _memoize.memoize_one)(function (data, threshold) {
@@ -70,13 +72,6 @@ function (_PureComponent) {
 
       var idx = (0, _bisect.bisect_left)(sortedY, threshold);
       return (idx + 1) / sortedY.length * 100;
-    }));
-
-    _defineProperty(_assertThisInitialized(_this), "getSortedY", (0, _memoize.memoize_one)(function (data) {
-      return data.map(function (_ref2) {
-        var y = _ref2.y;
-        return y;
-      });
     }));
 
     _defineProperty(_assertThisInitialized(_this), "handleClick", function (ev) {
