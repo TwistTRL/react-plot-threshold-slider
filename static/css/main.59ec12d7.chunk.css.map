@@ -1,0 +1,1 @@
+{"version":3,"sources":["DragOverlay.css"],"names":[],"mappings":"AAAA,YACE,cAAe,CACf,UAAW,CACX,WAAY,CACZ,MAAO,CACP,KAAM,CACN,YACF","file":"main.59ec12d7.chunk.css","sourcesContent":[".fullscreen {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999;\n}\n"]}
