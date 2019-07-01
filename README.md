@@ -5,7 +5,7 @@ Providing ThresholdSlider. ThresholdSliderLite is removed.
 
 ## Import
 ```
-import {ThresholdSlider, ThresholdOverlay} from "react-plot-threshold-slider";
+import ThresholdSlider, {ThresholdOverlay} from "react-plot-threshold-slider";
 ```
 
 ## Example
