@@ -7,7 +7,7 @@ const DATA = [...new Array(10000).keys()].map( i=>({x:i,y:i}) );
 class App extends Component {
   constructor(props){
     super(props);
-    this.state={width:100,
+    this.state={width:800,
                 height:400,
                 lowerThreshold:100,
                 upperThreshold:9050
@@ -31,7 +31,7 @@ class App extends Component {
                           />
         <ThresholdSlider  data={DATA}
                           value="y"
-                          width={width}
+                          width={80}
                           height={height}
                           minY={0}
                           maxY={10000}

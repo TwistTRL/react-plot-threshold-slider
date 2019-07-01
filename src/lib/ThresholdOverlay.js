@@ -11,7 +11,7 @@ class ThresholdOverlay extends PureComponent {
   }
 
   getStyle = memoize_one( (width,height)=>{
-    return {width,height,overflow:"hidden",position:"relative"};
+    return {width,height,overflow:"hidden",position:"relative", pointerEvents:"none"};
   });
   
   render() {

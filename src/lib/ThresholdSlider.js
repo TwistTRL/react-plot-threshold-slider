@@ -9,7 +9,7 @@ class ThresholdSlider extends PureComponent {
   constructor(props){
     super(props);
     this.snapshot={};
-    this.state = {dragging:false}; // false/'left'/'right'
+    this.state = {dragging:null}; // null/'left'/'right'
     this.ref = React.createRef();
   }
   
@@ -41,7 +41,7 @@ class ThresholdSlider extends PureComponent {
                                       />
     }
     return (
-      <>
+      <div>
         <svg  ref={this.ref}
               width={width} height={height}
               xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +83,7 @@ class ThresholdSlider extends PureComponent {
           <text x={width} y={lowerDomY+10} textAnchor="end" dominantBaseline="middle">{lowerPortionDisplay}%</text>
         </svg>
         {DragOverlayElem}
-      </>
+      </div>
     );
   }
   
@@ -105,8 +105,8 @@ class ThresholdSlider extends PureComponent {
   });
 
   getCenterPortion(data,value,upperThreshold,lowerThreshold) {
-    let uprP = this.getUpperPortion(data,upperThreshold);
-    let lwrP = this.getLowerPortion(data,lowerThreshold);
+    let uprP = this.getUpperPortion(data,value,upperThreshold);
+    let lwrP = this.getLowerPortion(data,value,lowerThreshold);
     let centerP = 100-uprP-lwrP;
     return centerP;
   }
