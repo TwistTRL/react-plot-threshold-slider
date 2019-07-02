@@ -26,7 +26,7 @@ class ThresholdOverlay extends PureComponent {
                       borderColor:"red",
                       borderWidth:1,
                       display:"flex",
-                      justifyContent:"right"
+                      justifyContent:"flex-end"
                     }} >
           <div style={{ display:"flex",
                         flexDirection: "column",
