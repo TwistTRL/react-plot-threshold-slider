@@ -100,7 +100,15 @@ function (_PureComponent) {
           color: "black",
           textShadow: "4px 4px 2px rgba(150, 150, 150, 1)"
         }
-      }, _react.default.createElement("div", null, upperThreshold.toFixed(1)), _react.default.createElement("div", null, lowerThreshold.toFixed(1)))));
+      }, _react.default.createElement("div", {
+        style: {
+          backgroundColor: "#ffffffb5"
+        }
+      }, upperThreshold.toFixed(1)), _react.default.createElement("div", {
+        style: {
+          backgroundColor: "#ffffffb5"
+        }
+      }, lowerThreshold.toFixed(1)))));
     }
   }]);
 
