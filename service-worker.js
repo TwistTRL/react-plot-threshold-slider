@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-plot-threshold-slider/precache-manifest.fea58c65739dc6cd971b2c9b63a5792b.js"
+  "/react-plot-threshold-slider/precache-manifest.add63a62d52c6270b29e27bc2542e90d.js"
 );
 
 self.addEventListener('message', (event) => {
