@@ -54,7 +54,8 @@ function (_PureComponent) {
         width: width,
         height: height,
         overflow: "hidden",
-        position: "relative"
+        position: "relative",
+        pointerEvents: "none"
       };
     }));
 
@@ -88,7 +89,7 @@ function (_PureComponent) {
           borderColor: "red",
           borderWidth: 1,
           display: "flex",
-          justifyContent: "right"
+          justifyContent: "flex-end"
         }
       }, _react.default.createElement("div", {
         style: {
@@ -97,7 +98,7 @@ function (_PureComponent) {
           justifyContent: "space-between",
           alignItems: "flex-end"
         }
-      }, _react.default.createElement("div", null, upperThreshold), _react.default.createElement("div", null, lowerThreshold))));
+      }, _react.default.createElement("div", null, upperThreshold.toFixed(1)), _react.default.createElement("div", null, lowerThreshold.toFixed(1)))));
     }
   }]);
 

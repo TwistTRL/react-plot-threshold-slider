@@ -136,8 +136,8 @@ function (_PureComponent) {
 
     _this.snapshot = {};
     _this.state = {
-      dragging: false
-    }; // false/'left'/'right'
+      dragging: null
+    }; // null/'left'/'right'
 
     _this.ref = _react.default.createRef();
     return _this;
@@ -159,7 +159,7 @@ function (_PureComponent) {
 
       var upperPortion = this.getUpperPortion(data, value, upperThreshold);
       var lowerPortion = this.getLowerPortion(data, value, lowerThreshold);
-      var centerPortion = this.getCenterPortion(data, value, upperThreshold, lowerThreshold);
+      var centerPortion = 100 - (upperPortion + lowerPortion);
       var upperPortionDisplay = upperPortion.toFixed(1);
       var lowerPortionDisplay = lowerPortion.toFixed(1);
       var centerPortionDisplay = centerPortion.toFixed(1); // Get threshold Dom positions
@@ -168,6 +168,7 @@ function (_PureComponent) {
       var lowerDomY = (0, _plotUtils.toDomYCoord_Linear)(height, minY, maxY, lowerThreshold); // DragOverlay
 
       var DragOverlayElem = null;
+      console.log(data);
 
       if (dragging === "upper") {
         DragOverlayElem = _react.default.createElement(_DragOverlay.default, {
@@ -185,20 +186,21 @@ function (_PureComponent) {
         });
       }
 
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("svg", {
+      return _react.default.createElement("div", null, _react.default.createElement("svg", {
         ref: this.ref,
         width: width,
         height: height,
         xmlns: "http://www.w3.org/2000/svg",
         style: {
-          backgroundColor: "#eeeeee"
+          backgroundColor: "#eeeeee",
+          borderLeft: "1px solid grey"
         }
       }, _react.default.createElement("style", {
         jsx: "true"
-      }, "\n            text {\n              fill: white;\n              font-family: Sans;\n              pointer-events: none;\n            }\n            "), _react.default.createElement("defs", null, _react.default.createElement("path", {
+      }, "\n            text {\n              fill: white;\n              font-family: Sans;\n              pointer-events: none;\n                  }\n                  "), _react.default.createElement("defs", null, _react.default.createElement("path", {
         id: "upperHandle",
         d: "M 0 0 L 5 5 L ".concat(width, " 5 L ").concat(width, " -20 L 10 -20 z"),
-        fill: "#000000"
+        fill: "#cad6d9"
       }), _react.default.createElement("filter", {
         id: "upperShadow",
         x: "-50%",
@@ -212,7 +214,7 @@ function (_PureComponent) {
       })), _react.default.createElement("path", {
         id: "lowerHandle",
         d: "M 0 0 L 5 -5 L ".concat(width, " -5 L ").concat(width, " 20 L 10 20 z"),
-        fill: "#000000"
+        fill: "#cad6d9"
       }), _react.default.createElement("filter", {
         id: "lowerShadow",
         x: "-50%",
@@ -229,11 +231,12 @@ function (_PureComponent) {
         width: width,
         height: lowerDomY - upperDomY,
         style: {
-          fill: "grey"
+          fill: "#8ea5ab"
         }
       }), _react.default.createElement("text", {
         x: width,
         y: (upperDomY + lowerDomY) / 2,
+        fontSize: "smaller",
         textAnchor: "end",
         dominantBaseline: "middle"
       }, centerPortionDisplay, "%"), _react.default.createElement("use", {
@@ -249,6 +252,10 @@ function (_PureComponent) {
       }), _react.default.createElement("text", {
         x: width,
         y: upperDomY - 10,
+        fontSize: "smaller",
+        style: {
+          fill: "#758895"
+        },
         textAnchor: "end",
         dominantBaseline: "middle"
       }, upperPortionDisplay, "%"), _react.default.createElement("use", {
@@ -264,6 +271,10 @@ function (_PureComponent) {
       }), _react.default.createElement("text", {
         x: width,
         y: lowerDomY + 10,
+        fontSize: "smaller",
+        style: {
+          fill: "#758895"
+        },
         textAnchor: "end",
         dominantBaseline: "middle"
       }, lowerPortionDisplay, "%")), DragOverlayElem);
@@ -271,8 +282,8 @@ function (_PureComponent) {
   }, {
     key: "getCenterPortion",
     value: function getCenterPortion(data, value, upperThreshold, lowerThreshold) {
-      var uprP = this.getUpperPortion(data, upperThreshold);
-      var lwrP = this.getLowerPortion(data, lowerThreshold);
+      var uprP = this.getUpperPortion(data, value, upperThreshold);
+      var lwrP = this.getLowerPortion(data, value, lowerThreshold);
       var centerP = 100 - uprP - lwrP;
       return centerP;
     }

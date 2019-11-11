@@ -3,12 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "ThresholdSliderLite", {
-  enumerable: true,
-  get: function get() {
-    return _ThresholdSliderLite.default;
-  }
-});
 Object.defineProperty(exports, "ThresholdOverlay", {
   enumerable: true,
   get: function get() {
@@ -18,8 +12,6 @@ Object.defineProperty(exports, "ThresholdOverlay", {
 exports.default = void 0;
 
 var _ThresholdSlider = _interopRequireDefault(require("./ThresholdSlider"));
-
-var _ThresholdSliderLite = _interopRequireDefault(require("./ThresholdSliderLite"));
 
 var _ThresholdOverlay = _interopRequireDefault(require("./ThresholdOverlay"));
 
