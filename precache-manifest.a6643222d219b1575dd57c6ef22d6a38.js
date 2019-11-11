@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "feb842f53ef3e10bc8490154d2848522",
+    "revision": "b2aa720fa26e83458cdeb44e76c9d286",
     "url": "/react-plot-threshold-slider/index.html"
   },
   {
-    "revision": "2a5f56d48c7b80780fed",
+    "revision": "eb852fb3107f091a4939",
     "url": "/react-plot-threshold-slider/static/css/main.59ec12d7.chunk.css"
   },
   {
-    "revision": "82ca356f3224cb74ecb9",
-    "url": "/react-plot-threshold-slider/static/js/2.a608033f.chunk.js"
+    "revision": "c6f7f48cb04fb5683876",
+    "url": "/react-plot-threshold-slider/static/js/2.f182c3ca.chunk.js"
   },
   {
-    "revision": "2a5f56d48c7b80780fed",
-    "url": "/react-plot-threshold-slider/static/js/main.aedd439f.chunk.js"
+    "revision": "eb852fb3107f091a4939",
+    "url": "/react-plot-threshold-slider/static/js/main.f634be55.chunk.js"
   },
   {
     "revision": "9d2da9d0292af834f68a",
