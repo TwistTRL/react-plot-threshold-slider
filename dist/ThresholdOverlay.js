@@ -96,7 +96,8 @@ function (_PureComponent) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          alignItems: "flex-end"
+          alignItems: "flex-end",
+          textShadow: "1px 1px #fff"
         }
       }, _react.default.createElement("div", null, upperThreshold.toFixed(1)), _react.default.createElement("div", null, lowerThreshold.toFixed(1)))));
     }

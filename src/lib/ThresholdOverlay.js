@@ -34,7 +34,8 @@ class ThresholdOverlay extends PureComponent {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            alignItems: "flex-end"
+            alignItems: "flex-end",
+            textShadow: "1px 1px #fff"
           }}>
             <div>
               {upperThreshold.toFixed(1)}
