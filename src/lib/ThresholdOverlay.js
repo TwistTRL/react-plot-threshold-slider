@@ -12,7 +12,7 @@ class ThresholdOverlay extends PureComponent {
 
   getStyle = memoize_one((width, height) => {
     return { width, height, overflow: "hidden", position: "relative", pointerEvents: "none" };
-  })
+  });
 
   render() {
     let { width, height, upperThreshold, lowerThreshold, minY, maxY } = this.props;
@@ -37,10 +37,10 @@ class ThresholdOverlay extends PureComponent {
             alignItems: "flex-end"
           }}>
             <div>
-              {upperThreshold}
+              {upperThreshold.toFixed(1)}
             </div>
             <div>
-              {lowerThreshold}
+              {lowerThreshold.toFixed(1)}
             </div>
           </div>
         </div>
