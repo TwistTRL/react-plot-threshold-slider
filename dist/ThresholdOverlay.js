@@ -102,11 +102,13 @@ function (_PureComponent) {
         }
       }, _react.default.createElement("div", {
         style: {
-          backgroundColor: "#ffffffb5"
+          backgroundColor: "#ffffffb5",
+          marginTop: "-20px"
         }
       }, upperThreshold.toFixed(1)), _react.default.createElement("div", {
         style: {
-          backgroundColor: "#ffffffb5"
+          backgroundColor: "#ffffffb5",
+          marginBottom: "-20px"
         }
       }, lowerThreshold.toFixed(1)))));
     }

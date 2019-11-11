@@ -39,11 +39,17 @@ class ThresholdOverlay extends PureComponent {
             textShadow: "4px 4px 2px rgba(150, 150, 150, 1)",
           }}>
             <div
-              style={{ backgroundColor: "#ffffffb5" }}>
+              style={{
+                backgroundColor: "#ffffffb5",
+                marginTop: "-20px"
+              }}>
               {upperThreshold.toFixed(1)}
             </div>
             <div
-              style={{ backgroundColor: "#ffffffb5" }}>
+              style={{
+                backgroundColor: "#ffffffb5",
+                marginBottom: "-20px"
+              }}>
               {lowerThreshold.toFixed(1)}
             </div>
           </div>
