@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "memoize": "github:zhoulytwinyu/memoize",
-    "plot-utils": "github:zhoulytwinyu/plot-utils#v0.1.0"
+    "plot-utils": "github:TwistTRL/plot-utils"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
